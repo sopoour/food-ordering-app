@@ -3,7 +3,8 @@ import styled from "styled-components";
 import Button from "../UI/Button";
 import { colors } from "../UI/StyleVariables";
 
-const CartButton = () => {
+const CartButton = (props) => {
+
   const CartButtonContainer = styled(Button)`
     display: flex;
     flex-flow: row;
@@ -29,7 +30,7 @@ const CartButton = () => {
   `;
 
   return (
-    <CartButtonContainer>
+    <CartButtonContainer onClick={props.onClick}>
       <p>Your Cart</p>
       <Counter>2</Counter>
     </CartButtonContainer>

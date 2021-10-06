@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import CartButton from "./CartButton";
+import CartModal from "../Cart/CartModal";
 import { colors } from "../UI/StyleVariables";
 
-
 const NavBar = (props) => {
+  const [cart, setCart] = useState(false);
+
   const Nav = styled.nav`
     display: flex;
     flex-flow: row wrap;
@@ -14,11 +16,22 @@ const NavBar = (props) => {
     color: white;
   `;
 
+  const handleCartButtonClick = () => {
+    setCart(true);
+  };
+
+  const handleClose = () => {
+    setCart(false);
+  };
+
   return (
-    <Nav>
-      <h1>Sopo Meal</h1>
-      <CartButton />
-    </Nav>
+    <React.Fragment>
+      {cart && <CartModal onClose={handleClose}/>}
+      <Nav>
+        <h1>Sopo Meal</h1>
+        <CartButton onClick={handleCartButtonClick} />
+      </Nav>
+    </React.Fragment>
   );
 };
 
