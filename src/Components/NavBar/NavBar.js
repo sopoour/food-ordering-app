@@ -5,7 +5,7 @@ import CartModal from "../Cart/CartModal";
 import { colors } from "../UI/StyleVariables";
 
 const NavBar = (props) => {
-  const [cart, setCart] = useState(false);
+  const [openCart, setOpenCart] = useState(false);
 
   const Nav = styled.nav`
     display: flex;
@@ -17,16 +17,16 @@ const NavBar = (props) => {
   `;
 
   const handleCartButtonClick = () => {
-    setCart(true);
+    setOpenCart(true);
   };
 
   const handleClose = () => {
-    setCart(false);
+    setOpenCart(false);
   };
 
   return (
     <React.Fragment>
-      {cart && <CartModal onClose={handleClose}/>}
+      {openCart && <CartModal onClose={handleClose}/>}
       <Nav>
         <h1>Sopo Meal</h1>
         <CartButton onClick={handleCartButtonClick} />

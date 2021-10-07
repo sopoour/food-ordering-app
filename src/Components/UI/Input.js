@@ -19,7 +19,7 @@ const Input = (props) => {
   return (
     <InputContainer>
       <label>{props.labelName}</label>
-      <InputField value={props.inputValue}></InputField>
+      <InputField value={props.inputValue} onChange={props.onChange} type="number"></InputField>
     </InputContainer>
   );
 };
