@@ -2,21 +2,22 @@ import React from "react";
 import styled from "styled-components";
 import Card from "../UI/Card";
 
+const IntroContainer = styled(Card)`
+  margin: 5rem 15rem 5rem 15rem;
+  padding: 2rem;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+`;
+
+const Background = styled.div`
+  margin-top: 5rem;
+  padding: 1rem;
+  width: 100%;
+  height: 100%;
+  background-image: url("./restaurant_image.jpg");
+`;
+
 const MealsIntro = () => {
-  const IntroContainer = styled(Card)`
-    margin: 5rem 15rem 5rem 15rem;
-    padding: 2rem;
-    text-align: center;
-    background: rgba(255, 255, 255, 0.9);
-  `;
-
-  const Background = styled.div`
-    padding: 1rem;
-    width: 100%;
-    height: 100%;
-    background-image: url("./restaurant_image.jpg");
-  `;
-
   return (
     <Background>
       <IntroContainer>

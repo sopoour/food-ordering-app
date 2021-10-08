@@ -2,8 +2,8 @@
 
 A basic app exercising React.js concepts:
 * useState()
-* useEffect()
-* Context API
+* Reducer
+* Context API (via useContext())
 * Portals
 * Refs
 * Styled Components

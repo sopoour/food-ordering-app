@@ -1,69 +1,72 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import Button from "../UI/Button";
 import Input from "../UI/Input";
 import { colors } from "../UI/StyleVariables";
 
+const ItemFormContainer = styled.form`
+  display: flex;
+  flex-flow: column wrap;
+  align-items: flex-end;
+`;
+
+const AddButton = styled(Button)`
+  background-color: ${colors.secondary};
+  color: ${colors.textOnColor};
+  margin-top: 1rem;
+
+  &:hover {
+    background-color: ${colors.secondaryHover};
+  }
+`;
+
 const MealItemForm = (props) => {
-  const ItemFormContainer = styled.form`
-    display: flex;
-    flex-flow: column wrap;
-    align-items: flex-end;
-  `;
+  const [amountIsValid, setAmountIsValid] = useState(true);
 
-  const AddButton = styled(Button)`
-    background-color: ${colors.secondary};
-    color: ${colors.textOnColor};
-    margin-top: 1rem;
+  //since it's a simple input number change and only read (not write), it's recommended to use ref
+  const amountInputRef = useRef();
 
-    &:hover {
-      background-color: ${colors.secondaryHover};
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    //get currently entered value from input, add a + in front of it so it's a number and not a string
+    const enteredAmount = amountInputRef.current.value;
+    const enteredAmountNumber = +enteredAmount;
+
+    if (
+      enteredAmount.trim().length === 0 ||
+      enteredAmountNumber < 1 ||
+      enteredAmountNumber > 5
+    ) {
+      setAmountIsValid(false);
+      return;
     }
-  `;
 
-  const [amountInput, setAmountInput] = useState(0);
-
-  const [cartItems, setCartItems] = useState([]);
-
-  const handleAmountCounter = (e) => {
-    let counter = 0;
-    counter += +e.target.value;
-    console.log(counter);
-    setAmountInput(counter);
+    //the cart item that is gonna be added needs more data than just the amount, but in this form we only have the amount
+    //so we need to handle the actual adding of the entire meal item within MealItem
+    props.onAddToCart(enteredAmountNumber);
   };
 
   /**
-   * TODO: Move all of the handlers and states to the cart-context and implement useContext here
-   * ! Make sure that context is resolving the current problem that the array of cartItems is always one item behind!!
+   * TODO: Figure out why the input field per item doesn't update with the current amount of each item!!
    */
-
-  const handleAddItem = () => {
-    setAmountInput((prevCount) => {
-      return prevCount + 1;
-    });
-
-    const addedCartItem = {
-      id: Math.random().toString(),
-      name: props.name,
-      price: props.price,
-      amount: amountInput,
-    };
-
-    setCartItems((prevItems) => {
-      return prevItems.concat(addedCartItem);
-    });
-
-    console.log(cartItems);
-  };
-
   return (
-    <ItemFormContainer>
+    /* We are handling the entire submission via the form so it applies to changes of both the add btn and input */
+    <ItemFormContainer onSubmit={handleSubmit}>
       <Input
-        inputValue={amountInput}
+        ref={amountInputRef}
         labelName={"Amount: "}
-        onChange={handleAmountCounter}
+        input={{
+          id: "amount_" + props.id,
+          type: "number",
+          min: "1",
+          max: "5",
+          step: "1",
+          defaultValue: "1",
+        }}
       ></Input>
-      <AddButton onClick={handleAddItem}>+ Add</AddButton>
+      <AddButton>+ Add</AddButton>
+      {!amountIsValid && <p>Please enter a valid amount (1-5).</p>}
     </ItemFormContainer>
   );
 };
