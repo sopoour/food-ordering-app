@@ -1,5 +1,7 @@
 # food-ordering-app
 
+You can find a demo here: https://sophiaauer.me/food-ordering-app/
+
 A basic app exercising React.js concepts:
 * useState()
 * Reducer
