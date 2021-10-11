@@ -49,13 +49,19 @@ const CartCard = styled(Card)`
 const Cart = (props) => {
   const cartCtx = useContext(CartContext);
 
-  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+  const totalPrice = `$${cartCtx.totalPrice.toFixed(2)}`;
 
   const hasItems = cartCtx.items.length > 0;
 
-  const handleCartItemRemove = (id) => {};
+  const handleCartItemRemove = (id) => {
+    cartCtx.onRemove(id)
+    
+  };
 
-  const hanldeCartItemAdd = (item) => {};
+  const hanldeCartItemAdd = (item) => {
+    //add item where I set the amount to 1
+    cartCtx.onAdd({ ...item, amount: 1 });
+  };
 
   return (
     <CartCard>
@@ -66,19 +72,19 @@ const Cart = (props) => {
             amount={item.amount}
             name={item.name}
             price={item.price}
-            /* 
-            * Use bind to pre-configure the function for future execution
-            * pre-configure the argument that function will receieve when it executes 
-            * 
-            * */
+            /*
+             * Use bind to pre-configure the function for future execution
+             * pre-configure the argument that function will receieve when it executes
+             *
+             * */
             onRemove={handleCartItemRemove.bind(null, item.id)}
             onAdd={hanldeCartItemAdd.bind(null, item)}
           />
         ))}
       </ul>
       <div className="total">
-        <span>Total Amount</span>
-        <span>{totalAmount}</span>
+        <span>Total Price</span>
+        <span>{totalPrice}</span>
       </div>
       <div className="actions">
         <Button

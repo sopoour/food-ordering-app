@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import CartButton from "./CartButton";
+import NavBarCartButton from "./NavBarCartButton";
 import { colors } from "../UI/StyleVariables";
 
 const Nav = styled.nav`
@@ -25,7 +25,7 @@ const NavBar = (props) => {
     <React.Fragment>
       <Nav>
         <h1>Sopo Meal</h1>
-        <CartButton onClick={props.onOpenCart} />
+        <NavBarCartButton onClick={props.onOpenCart} />
       </Nav>
     </React.Fragment>
   );

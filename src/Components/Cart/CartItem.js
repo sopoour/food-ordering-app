@@ -7,14 +7,13 @@ const CartItemWrapper = styled.li`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid #8a2b06;
+  border-bottom: 3px solid ${colors.primary};
   padding: 1rem 0;
   margin: 1rem 0;
 
   & div.actions {
     display: flex;
-    flex-direction: column;
-    
+    flex-direction: row;
   }
 `;
 
@@ -31,7 +30,7 @@ const CartSummary = styled.div`
 
   & span.amount {
     font-weight: bold;
-    border: 1px solid #ccc;
+    border: 1px solid ${colors.secondaryHover};
     padding: 0.25rem 0.75rem;
     border-radius: 6px;
     color: ${colors.secondary};

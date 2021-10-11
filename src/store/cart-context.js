@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 //an object that also contains components
 const CartContext = React.createContext({
-  totalAmount: 0,
+  totalPrice: 0,
   items: [],
   onAdd: (item) => {},
   onRemove: (id) => {},
