@@ -12,6 +12,9 @@ const MealItemCard = styled(Card)`
   background: ${colors.primary};
   padding: 1rem 2rem 1rem 2rem;
   margin: 1rem;
+  &li {
+    align-self: left;
+  }
 `;
 
 const MealItem = (props) => {

@@ -30,7 +30,10 @@ const DUMMY_MEALS = [
 ];
 
 const MainContainer = styled.ul`
-  margin: 2rem;
+  display: flex;
+  //mobile-friendly by default:
+  flex-flow: column wrap;
+  margin: 1rem;
   padding: 0.5rem;
   list-style-type: none;
 `;

@@ -1,26 +1,35 @@
 import React from "react";
 import styled from "styled-components";
 import Card from "../UI/Card";
+import background from "../../assets/restaurant_image.jpg"
 
-const IntroContainer = styled(Card)`
-  margin: 5rem 15rem 5rem 15rem;
-  padding: 2rem;
+const IntroBox = styled(Card)`
+  margin: 2rem 1rem 2rem 1rem;
+  padding: 1rem;
   text-align: center;
   background: rgba(255, 255, 255, 0.9);
+
+  @media (min-width: 1024px) {
+    margin: 3rem 15rem 3rem 15rem;
+    padding: 2rem;
+  }
+
+  @media (min-width: 1440px) {
+    padding: 5rem;
+  }
 `;
 
-const Background = styled.div`
-  margin-top: 5rem;
-  padding: 1rem;
+const IntroContainer = styled.div`
+  overflow: auto;
   width: 100%;
   height: 100%;
-  background-image: url("./restaurant_image.jpg");
+  background: repeat url(${background});
 `;
 
 const MealsIntro = () => {
   return (
-    <Background>
-      <IntroContainer>
+    <IntroContainer > 
+      <IntroBox>
         <h2>Delicious Food, Delivered To You</h2>
         <p>
           Choose your favorite meal from our broad selection of available meals
@@ -30,8 +39,8 @@ const MealsIntro = () => {
           All our meals are cooked with high-quality ingredients, just-in-time
           and of course by experienced chefs!
         </p>
-      </IntroContainer>
-    </Background>
+      </IntroBox>
+    </IntroContainer>
   );
 };
 

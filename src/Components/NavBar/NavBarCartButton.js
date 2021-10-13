@@ -12,7 +12,6 @@ const CartButtonContainer = styled(Button)`
   align-items: center;
   background-color: ${colors.primary};
   color: ${colors.textOnColor};
-  margin-right: 2.5rem;
   padding: 1.2rem 2rem;
 
   &:hover,

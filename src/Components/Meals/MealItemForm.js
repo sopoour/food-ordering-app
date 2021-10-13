@@ -47,9 +47,6 @@ const MealItemForm = (props) => {
     props.onAddToCart(enteredAmountNumber);
   };
 
-  /**
-   * TODO: Figure out why the input field per item doesn't update with the current amount of each item!!
-   */
   return (
     /* We are handling the entire submission via the form so it applies to changes of both the add btn and input */
     <ItemFormContainer onSubmit={handleSubmit}>
