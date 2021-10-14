@@ -92,7 +92,7 @@ const Cart = (props) => {
           style={{
             backgroundColor: "white",
             color: `${colors.secondary}`,
-            border: "solid",
+            border: "solid 3px",
             borderColor: `${colors.secondary}`,
           }}
           onClick={props.onCloseCart}

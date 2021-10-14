@@ -13,6 +13,7 @@ const CartButtonContainer = styled(Button)`
   background-color: ${colors.primary};
   color: ${colors.textOnColor};
   padding: 1.2rem 2rem;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
 
   &:hover,
   &:active {

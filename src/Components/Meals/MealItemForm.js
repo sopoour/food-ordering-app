@@ -22,6 +22,7 @@ const AddButton = styled(Button)`
   background-color: ${colors.secondary};
   color: ${colors.textOnColor};
   margin-top: 1rem;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
 
   &:hover {
     background-color: ${colors.secondaryHover};
