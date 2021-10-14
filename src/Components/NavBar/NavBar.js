@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import NavBarCartButton from "./NavBarCartButton";
 import { colors } from "../UI/StyleVariables";
-
 
 const Nav = styled.nav`
   width: 100%;
@@ -28,7 +27,7 @@ const NavBar = (props) => {
   const [scrolled, setScrolled] = useState(false);
   const handleScroll = () => {
     const offset = window.scrollY;
-    if (offset >= 50) {
+    if (offset >= 100) {
       setScrolled(true);
     } else {
       setScrolled(false);

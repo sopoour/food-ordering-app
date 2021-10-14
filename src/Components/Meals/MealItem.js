@@ -4,16 +4,25 @@ import MealItemForm from "./MealItemForm";
 import Card from "../UI/Card";
 import { colors } from "../UI/StyleVariables";
 import CartContext from "../../store/cart-context";
+import { device } from "../UI/StyleVariables";
 
 const MealItemCard = styled(Card)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-flow: column wrap;
+  gap: 1rem;
   background: ${colors.primary};
-  padding: 1rem 2rem 1rem 2rem;
+  padding: 1rem;
   margin: 1rem;
   &li {
     align-self: left;
+  }
+
+  @media ${device.tablet} {
+    flex-flow: row wrap;
+    gap: 0rem;
+    padding: 1rem 2rem 1rem 2rem;
   }
 `;
 
@@ -27,7 +36,7 @@ const MealItem = (props) => {
       id: props.id,
       name: props.name,
       amount: amount,
-      price: props.price
+      price: props.price,
     });
   };
 

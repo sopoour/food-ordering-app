@@ -3,22 +3,23 @@ import styled from "styled-components";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 
-import { colors } from "../UI/StyleVariables";
+import { colors, device } from "../UI/StyleVariables";
 import CartItem from "./CartItem";
 import CartContext from "../../store/cart-context";
 
 const CartCard = styled(Card)`
   position: fixed;
-  top: 30vh;
-  left: 10%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 80%;
   z-index: 100;
   overflow: hidden;
   background: white;
-  max-height: 30rem;
+  padding: 1.25rem;
 
-  & div {
-    padding: 1rem;
+  @media ${device.tablet}{
+    width: 50%;
   }
 
   & ul {
@@ -35,14 +36,14 @@ const CartCard = styled(Card)`
     align-items: center;
     font-weight: bold;
     font-size: 1.5rem;
-    margin: 1rem 0;
+    margin: 2rem 0;
   }
 
-  & div.actions {
-    padding: 1rem;
+  & div.final-actions {
     display: flex;
+    flex-flow: row wrap;
     justify-content: flex-end;
-    gap: 1rem;
+    gap: 0.5rem;
   }
 `;
 
@@ -86,7 +87,7 @@ const Cart = (props) => {
         <span>Total Price</span>
         <span>{totalPrice}</span>
       </div>
-      <div className="actions">
+      <div className="final-actions">
         <Button
           style={{
             backgroundColor: "white",

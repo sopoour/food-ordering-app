@@ -2,12 +2,20 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import Button from "../UI/Button";
 import Input from "../UI/Input";
-import { colors } from "../UI/StyleVariables";
+import { colors, device } from "../UI/StyleVariables";
 
 const ItemFormContainer = styled.form`
   display: flex;
   flex-flow: column wrap;
-  align-items: flex-end;
+  align-items: center;
+  border-top: 2px solid ${colors.secondayBright};
+  width: 100%;
+
+  @media ${device.tablet} {
+    width: auto;
+    border-top: none;
+    align-items: flex-end;
+  }
 `;
 
 const AddButton = styled(Button)`

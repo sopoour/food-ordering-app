@@ -3,6 +3,7 @@ export const colors = {
   primaryHover: "rgba(246, 177, 120, 1)",
   secondary: "rgba(79, 93, 117, 1)",
   secondaryHover: "rgba(147, 160, 182, 1)",
+  secondayBright: "rgba(172, 180, 194, 1)",
   textOnColor: "rgba(255, 255, 255, 1)",
 };
 
