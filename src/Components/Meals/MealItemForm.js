@@ -8,7 +8,7 @@ const ItemFormContainer = styled.form`
   display: flex;
   flex-flow: column wrap;
   align-items: center;
-  border-top: 2px solid ${colors.secondayBright};
+  border-top: 2px solid white;
   width: 100%;
 
   @media ${device.tablet} {
