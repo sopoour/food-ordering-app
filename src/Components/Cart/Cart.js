@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
@@ -6,6 +6,7 @@ import Button from "../UI/Button";
 import { colors, device } from "../UI/StyleVariables";
 import CartItem from "./CartItem";
 import CartContext from "../../store/cart-context";
+import Checkout from "./Checkout";
 
 const CartCard = styled(Card)`
   position: fixed;
@@ -18,7 +19,7 @@ const CartCard = styled(Card)`
   background: white;
   padding: 1.25rem;
 
-  @media ${device.tablet}{
+  @media ${device.tablet} {
     width: 50%;
   }
 
@@ -39,7 +40,7 @@ const CartCard = styled(Card)`
     margin: 2rem 0;
   }
 
-  & div.final-actions {
+  & div.order-actions {
     display: flex;
     flex-flow: row wrap;
     justify-content: flex-end;
@@ -54,15 +55,51 @@ const Cart = (props) => {
 
   const hasItems = cartCtx.items.length > 0;
 
+  const [isCheckout, setIsCheckout] = useState(false);
+
+  /* const [orderComplete, setOrderComplete] = useState({
+    name: "",
+    address: "",
+    paymentMethod: "",
+    order: [],
+  }); */
+
   const handleCartItemRemove = (id) => {
-    cartCtx.onRemove(id)
-    
+    cartCtx.onRemove(id);
   };
 
-  const hanldeCartItemAdd = (item) => {
+  const handleCartItemAdd = (item) => {
     //add item where I set the amount to 1
     cartCtx.onAdd({ ...item, amount: 1 });
   };
+
+  const handleOrder = () => {
+    setIsCheckout(true);
+  };
+
+  const orderActions = (
+    <div className="order-actions">
+      <Button
+        style={{
+          backgroundColor: "white",
+          color: `${colors.secondary}`,
+          border: "solid 3px",
+          borderColor: `${colors.secondary}`,
+        }}
+        onClick={props.onCloseCart}
+      >
+        Close
+      </Button>
+      {hasItems && (
+        <Button
+          style={{ backgroundColor: `${colors.secondary}`, color: "white" }}
+          onClick={handleOrder}
+        >
+          Order
+        </Button>
+      )}
+    </div>
+  );
 
   return (
     <CartCard>
@@ -79,7 +116,7 @@ const Cart = (props) => {
              *
              * */
             onRemove={handleCartItemRemove.bind(null, item.id)}
-            onAdd={hanldeCartItemAdd.bind(null, item)}
+            onAdd={handleCartItemAdd.bind(null, item)}
           />
         ))}
       </ul>
@@ -87,27 +124,8 @@ const Cart = (props) => {
         <span>Total Price</span>
         <span>{totalPrice}</span>
       </div>
-      <div className="final-actions">
-        <Button
-          style={{
-            backgroundColor: "white",
-            color: `${colors.secondary}`,
-            border: "solid 3px",
-            borderColor: `${colors.secondary}`,
-          }}
-          onClick={props.onCloseCart}
-        >
-          Close
-        </Button>
-        {hasItems && (
-          <Button
-            style={{ backgroundColor: `${colors.secondary}`, color: "white" }}
-            onClick={props.onOrder}
-          >
-            Order
-          </Button>
-        )}
-      </div>
+      {!isCheckout && orderActions }
+      {isCheckout && <Checkout onCancel={props.onCloseCart} />}
     </CartCard>
   );
 };
