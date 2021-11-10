@@ -6,6 +6,7 @@ const CartContext = React.createContext({
   items: [],
   onAdd: (item) => {},
   onRemove: (id) => {},
+  clearCart: () => {},
 });
 
 //To destructure and pull out more out of the App component --> Creae a separate Context Management Component

@@ -5,6 +5,8 @@ import styled from "styled-components";
 import useInput from "../../hooks/use-input";
 import { colors } from "../UI/StyleVariables";
 
+//TODO: Try out to use Refs instead of useState for the values since it doesn't make any sense to use useState for that
+
 const CheckoutForm = styled.form`
   display: flex;
   flex-flow: column wrap;
@@ -47,7 +49,6 @@ const Checkout = (props) => {
     hasError: nameHasError,
     handleValueChange: handleNameChange,
     handleInputBlur: handleNameBlur,
-    reset: resetName,
   } = useInput(isNotEmpty);
 
   const {
@@ -56,7 +57,6 @@ const Checkout = (props) => {
     hasError: streetHasError,
     handleValueChange: handleStreetChange,
     handleInputBlur: handleStreetBlur,
-    reset: resetStreet,
   } = useInput(isNotEmpty);
 
   const {
@@ -65,7 +65,6 @@ const Checkout = (props) => {
     hasError: postalCodeasError,
     handleValueChange: handlePostalCodeChange,
     handleInputBlur: handlePostalCodeBlur,
-    reset: resetPostalCode,
   } = useInput(isFiveChars);
 
   const {
@@ -74,7 +73,6 @@ const Checkout = (props) => {
     hasError: cityHasError,
     handleValueChange: handleCityChange,
     handleInputBlur: handleCityBlur,
-    reset: resetCity,
   } = useInput(isNotEmpty);
 
   const inputFields = [
@@ -141,10 +139,13 @@ const Checkout = (props) => {
     if (!formIsValid) {
       return;
     }
-    resetName();
-    resetStreet();
-    resetPostalCode();
-    resetCity();
+
+    props.onConfirm({
+      name: enteredName,
+      street: enteredStreet,
+      postalCode: enteredPostalCode,
+      city: enteredCity,
+    });
   };
 
   return (
