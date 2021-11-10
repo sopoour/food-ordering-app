@@ -81,10 +81,8 @@ const Cart = (props) => {
     <div className="order-actions">
       <Button
         style={{
-          backgroundColor: "white",
-          color: `${colors.secondary}`,
-          border: "solid 3px",
-          borderColor: `${colors.secondary}`,
+          backgroundColor: colors.secondayBright,
+          color: colors.textOnColor,
         }}
         onClick={props.onCloseCart}
       >
@@ -92,7 +90,7 @@ const Cart = (props) => {
       </Button>
       {hasItems && (
         <Button
-          style={{ backgroundColor: `${colors.secondary}`, color: "white" }}
+          style={{ backgroundColor: `${colors.primary}`, color: "white" }}
           onClick={handleOrder}
         >
           Order

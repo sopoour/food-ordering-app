@@ -1,13 +1,14 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 import styled from "styled-components";
+import useInput from "../../hooks/use-input";
+import { colors } from "../UI/StyleVariables";
 
 const CheckoutForm = styled.form`
   display: flex;
   flex-flow: column wrap;
-  gap: 1rem;
-  margin-bottom: 2rem;
+  gap: 0.5rem;
   margin-top: 2rem;
 
   & div.confirm-actions {
@@ -15,120 +16,172 @@ const CheckoutForm = styled.form`
     flex-flow: row wrap;
     justify-content: flex-end;
     gap: 1rem;
-  }
-`;
+    margin-top: 1.5rem;
 
-const CheckoutInput = styled(Input)`
-  
-  display: flex;
-  flex-flow: column wrap;
-  align-content: stretch;
-  border: 1px solid #ccc;
+    & button.confirm-btn {
+      background-color: ${colors.primary};
+      color: ${colors.textOnColor};
 
-  & label {
-    display: block;
+      &:disabled,
+      button:disabled:hover,
+      button:disabled:active {
+        background-color: ${colors.secondary};
+        color: ${colors.textOnColor};
+      }
+    }
   }
 `;
 
 //Some helper functions for form validation
-const isEmpty = (value) => value.trim() === "";
-const isFiveChars = (value) => value.trim().length === 5;
+const isNotEmpty = (value) => {
+  return value.trim() !== "";
+};
+const isFiveChars = (value) => {
+  return value.trim().length === 5;
+};
 
 const Checkout = (props) => {
-  const [formInputsValidity, setFormInputsValidity] = useState({
-    name: true,
-    street: true,
-    city: true,
-    postalCode: true,
-  });
+  const {
+    value: enteredName,
+    isValid: enteredNameIsValid,
+    hasError: nameHasError,
+    handleValueChange: handleNameChange,
+    handleInputBlur: handleNameBlur,
+    reset: resetName,
+  } = useInput(isNotEmpty);
 
-  const nameInputRef = useRef();
-  const streetInputRef = useRef();
-  const postalInputRef = useRef();
-  const cityInputRef = useRef();
+  const {
+    value: enteredStreet,
+    isValid: enteredStreetIsValid,
+    hasError: streetHasError,
+    handleValueChange: handleStreetChange,
+    handleInputBlur: handleStreetBlur,
+    reset: resetStreet,
+  } = useInput(isNotEmpty);
+
+  const {
+    value: enteredPostalCode,
+    isValid: enteredPostalCodeIsValid,
+    hasError: postalCodeasError,
+    handleValueChange: handlePostalCodeChange,
+    handleInputBlur: handlePostalCodeBlur,
+    reset: resetPostalCode,
+  } = useInput(isFiveChars);
+
+  const {
+    value: enteredCity,
+    isValid: enteredCityIsValid,
+    hasError: cityHasError,
+    handleValueChange: handleCityChange,
+    handleInputBlur: handleCityBlur,
+    reset: resetCity,
+  } = useInput(isNotEmpty);
+
+  const inputFields = [
+    {
+      id: "name",
+      name: "Name",
+      value: enteredName,
+      isError: nameHasError,
+      errorText: "name!",
+      onChange: handleNameChange,
+      onBlur: handleNameBlur,
+      classes: !nameHasError ? "order-input" : "order-input invalid",
+      type: "text",
+    },
+    {
+      id: "street",
+      name: "Street",
+      value: enteredStreet,
+      isError: streetHasError,
+      errorText: "street!",
+      onChange: handleStreetChange,
+      onBlur: handleStreetBlur,
+      classes: !streetHasError ? "order-input" : "order-input invalid",
+      type: "text",
+    },
+    {
+      id: "postal",
+      name: "Postal Code",
+      value: enteredPostalCode,
+      isError: postalCodeasError,
+      errorText: "postal code (5 characters long)!",
+      onChange: handlePostalCodeChange,
+      onBlur: handlePostalCodeBlur,
+      classes: !postalCodeasError ? "order-input" : "order-input invalid",
+      type: "text",
+    },
+    {
+      id: "city",
+      name: "City",
+      value: enteredCity,
+      isError: cityHasError,
+      errorText: "city!",
+      onBlur: handleCityBlur,
+      onChange: handleCityChange,
+      classes: !cityHasError ? "order-input" : "order-input invalid",
+      type: "text",
+    },
+  ];
+
+  let formIsValid = false;
+
+  if (
+    enteredNameIsValid &&
+    enteredStreetIsValid &&
+    enteredPostalCodeIsValid &&
+    enteredCityIsValid
+  ) {
+    formIsValid = true;
+  }
 
   const handleConfirm = (event) => {
     event.preventDefault();
 
-    const enteredName = nameInputRef.current.value;
-    const enteredStreet = streetInputRef.current.value;
-    const enteredPostalCode = postalInputRef.current.value;
-    const enteredCity = cityInputRef.current.value;
-
-    const enteredNameIsValid = !isEmpty(enteredName);
-    const enteredStreetIsValid = !isEmpty(enteredStreet);
-    const enteredPostalCodeIsValid = isFiveChars(enteredPostalCode);
-    const enteredCityIsValid = !isEmpty(enteredCity);
-
-    setFormInputsValidity({
-      name: enteredCityIsValid,
-      street: enteredStreetIsValid,
-      city: enteredCityIsValid,
-      postalCode: enteredPostalCodeIsValid,
-    });
-
-    const formIsValid =
-      enteredNameIsValid &&
-      enteredStreetIsValid &&
-      enteredPostalCodeIsValid &&
-      enteredCityIsValid;
-
     if (!formIsValid) {
       return;
     }
+    resetName();
+    resetStreet();
+    resetPostalCode();
+    resetCity();
   };
 
   return (
     <CheckoutForm onSubmit={handleConfirm}>
-      <CheckoutInput
-        labelName={"Name: "}
-        ref={nameInputRef}
-        validation={!formInputsValidity.name}
-        validationName={"name!"}
-        invalidClass={formInputsValidity.name ? "" : "invalid"}
-        input={{
-          id: "name",
-          type: "text",
-        }}
-      ></CheckoutInput>
-      <CheckoutInput
-        labelName={"Street: "}
-        ref={streetInputRef}
-        validation={!formInputsValidity.street}
-        validationName={"street!"}
-        invalidClass={formInputsValidity.street ? "" : "invalid"}
-        input={{
-          id: "street",
-          type: "text",
-        }}
-      ></CheckoutInput>
-      <CheckoutInput
-        labelName={"Postal Code: "}
-        ref={postalInputRef}
-        validation={!formInputsValidity.postalCode}
-        validationName={"postal code (5 characters long)!"}
-        invalidClass={formInputsValidity.postalCode ? "" : "invalid"}
-        input={{
-          id: "postal",
-          type: "text",
-        }}
-      ></CheckoutInput>
-      <CheckoutInput
-        labelName={"City: "}
-        ref={cityInputRef}
-        validation={!formInputsValidity.city}
-        validationName={"city!"}
-        invalidClass={formInputsValidity.city ? "" : "invalid"}
-        input={{
-          id: "city",
-          type: "text",
-        }}
-      ></CheckoutInput>
+      {inputFields.map((item) => (
+        <Input
+          labelName={item.name}
+          isError={item.isError}
+          errorName={item.errorText}
+          classes={item.classes}
+          input={{
+            id: item.id,
+            type: item.type,
+            value: item.value,
+            onBlur: item.onBlur,
+            onChange: item.onChange,
+          }}
+        ></Input>
+      ))}
       <div className={"confirm-actions"}>
-        <Button type="button" onClick={props.onCancel}>
+        <Button
+          type="button"
+          onClick={props.onCancel}
+          style={{
+            backgroundColor: colors.secondayBright,
+            color: colors.textOnColor,
+          }}
+        >
           Cancel
         </Button>
-        <Button onClick={props.onOrder}>Confirm</Button>
+        <Button
+          disabled={!formIsValid}
+          onClick={props.onOrder}
+          className={"confirm-btn"}
+        >
+          Confirm
+        </Button>
       </div>
     </CheckoutForm>
   );

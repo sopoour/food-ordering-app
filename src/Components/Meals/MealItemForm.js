@@ -18,14 +18,6 @@ const ItemFormContainer = styled.form`
   }
 `;
 
-//PROBLEM: how can I style the Input component while having several internal JSX elements
-
-const AmountInput = styled(Input)`
-  width: 2.5rem;
-  height: 1rem;
-  text-align: center;
-`;
-
 const AddButton = styled(Button)`
   background-color: ${colors.secondary};
   color: ${colors.textOnColor};
@@ -67,9 +59,10 @@ const MealItemForm = (props) => {
   return (
     /* We are handling the entire submission via the form so it applies to changes of both the add btn and input */
     <ItemFormContainer onSubmit={handleSubmit}>
-      <AmountInput
+      <Input
         ref={amountInputRef}
         labelName={"Amount: "}
+        addedInputClass={"amount-input"}
         input={{
           id: "amount_" + props.id,
           type: "number",
@@ -78,7 +71,7 @@ const MealItemForm = (props) => {
           step: "1",
           defaultValue: "1",
         }}
-      ></AmountInput>
+      ></Input>
       <AddButton>+ Add</AddButton>
       {!amountIsValid && <p>Please enter a valid amount (1-5).</p>}
     </ItemFormContainer>
