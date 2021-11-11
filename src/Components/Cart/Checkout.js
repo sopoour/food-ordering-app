@@ -107,7 +107,7 @@ const Checkout = (props) => {
       onChange: handlePostalCodeChange,
       onBlur: handlePostalCodeBlur,
       classes: !postalCodeasError ? "order-input" : "order-input invalid",
-      type: "text",
+      type: "number",
     },
     {
       id: "city",

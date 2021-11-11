@@ -16,41 +16,43 @@ const AvailableMeals = () => {
   const [httpError, setHttpError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  // TODO: Figure out why it doesn't show the error message and instead it shows a "failed to fetch"
+
   const fetchData = useCallback(async () => {
     setIsLoading(true);
-
-    const response = await fetch(
-      "https://react-project-exercise-default-rtdb.europe-west1.firebasedatabase.app/Meals.json"
-    );
-
-    if (!response.ok) {
-      console.log("I'm here")
-      throw new Error("Something went wrong!");
+    try {
+      const response = await fetch(
+        "https://react-project-exercise-default-rtdb.europe-west1.firebasedatabase.app/Meals.json"
+      );
+  
+      if (!response.ok) {
+        throw new Error("Something went wrong with fetching the meals data!");
+      }
+  
+      const data = await response.json();
+  
+      let loadedFood = [];
+  
+      for (const key in data) {
+        loadedFood.push({
+          id: key,
+          name: data[key].name,
+          description: data[key].description,
+          price: data[key].price,
+        });
+      }
+  
+      setMeals(loadedFood);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setHttpError(error.message);
     }
-
-    const data = await response.json();
-
-    let loadedFood = [];
-
-    for (const key in data) {
-      loadedFood.push({
-        id: key,
-        name: data[key].name,
-        description: data[key].description,
-        price: data[key].price,
-      });
-    }
-    console.log(loadedFood);
-
-    setMeals(loadedFood);
-    setIsLoading(false);
+    
   }, []);
 
   useEffect(() => {
-    fetchData().catch((error) => {
-      setIsLoading(false);
-      setHttpError(error.message);
-    });
+    fetchData();
   }, [fetchData]);
 
   return (

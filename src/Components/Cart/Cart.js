@@ -60,6 +60,7 @@ const Cart = (props) => {
     isHappening: false,
     isDone: false,
   });
+  const [error, setError] = useState(null);
 
   /* const [orderComplete, setOrderComplete] = useState({
     name: "",
@@ -83,28 +84,45 @@ const Cart = (props) => {
 
   //the userData is inserted into this function via the Checkout component
   //the orderItems we can get from our context
+
+  
   const handleOrderSubmission = async (userData) => {
     setSubmission({
       isHappening: true,
       isDone: false,
     });
-    //after state changed, first await that the fetch has happened until you change the state again
-    //TODO: Add some error handling!
-    await fetch(
-      "https://react-project-exercise-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          user: userData,
-          orderedItems: cartCtx.items,
-        }),
+
+    try {
+      //after state changed, first await that the fetch has happened until you change the state again
+      const response = await fetch(
+        "https://react-project-exercise-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            orderTime: new Date(),
+            user: userData,
+            orderedItems: cartCtx.items,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Something went wrong with sending your order, try again!");
       }
-    );
-    setSubmission({
-      isHappening: false,
-      isDone: true,
-    });
-    cartCtx.clearCart();
+      const data = await response.json();
+      console.log(data);
+      setSubmission({
+        isHappening: false,
+        isDone: true,
+      });
+      cartCtx.clearCart();
+    } catch (error) {
+      setError(error.message)
+      setSubmission({
+        isHappening: false,
+        isDone: false,
+      });
+    }
   };
 
   const orderActions = (
@@ -168,22 +186,24 @@ const Cart = (props) => {
     <React.Fragment>
       <p>You have successfully sent your order!</p>
       <div className="order-actions">
-      <Button
-        style={{
-          backgroundColor: colors.secondayBright,
-          color: colors.textOnColor,
-        }}
-        onClick={props.onCloseCart}
-      >
-        Close</Button>
-    </div>
+        <Button
+          style={{
+            backgroundColor: colors.secondayBright,
+            color: colors.textOnColor,
+          }}
+          onClick={props.onCloseCart}
+        >
+          Close
+        </Button>
+      </div>
     </React.Fragment>
   );
 
   return (
     <CartCard>
-      {!submission.isHappening && !submission.isDone && cartModalContent}
-      {submission.isHappening && isSubmittingModalContent}
+      {!submission.isHappening && !submission.isDone && !error && cartModalContent}
+      {!submission.isHappening && error && <p>{error}</p> }
+      {submission.isHappening && !error && isSubmittingModalContent}
       {submission.isDone && submissionDoneContent}
     </CartCard>
   );
